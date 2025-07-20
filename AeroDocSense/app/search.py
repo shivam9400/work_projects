@@ -10,12 +10,24 @@ from utils.embedder import generate_embedding_for_query
 from utils.mongo_handler import MongoDBHandler
 from sklearn.metrics.pairwise import cosine_similarity
 from dotenv import load_dotenv
+import streamlit as st
+
+def get_secret(key: str, default: str = None):
+    # Try to load from Streamlit secrets first
+    if key in st.secrets:
+        return st.secrets[key]
+    
+    # Then try from environment
+    return os.getenv(key, default)
 
 load_dotenv(dotenv_path="AeroDocSense/configs/.env")
+HF_TOKEN = get_secret("HF_TOKEN")
+MONGO_URI = get_secret("MONGO_URI")
+MONGO_COLLECTION_NAME = get_secret("MONGO_COLLECTION", "embedded_chunks")
 
 class DocumentRetrievalEngine:
     def __init__(self, top_k=5):
-        self.mongo = MongoDBHandler(collection_name=os.getenv("MONGO_COLLECTION", "embedded_chunks"))
+        self.mongo = MongoDBHandler(collection_name=MONGO_COLLECTION_NAME)
         self.top_k = top_k
 
     def search(self, query):

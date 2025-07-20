@@ -1,5 +1,9 @@
 import streamlit as st
 from app.generate import answer_query
+import streamlit as st
+
+HF_TOKEN = st.secrets["HF_API_TOKEN"]
+MONGO_URI = st.secrets["MONGO_URI"]
 
 st.set_page_config(page_title="AeroDocSense", layout="centered")
 

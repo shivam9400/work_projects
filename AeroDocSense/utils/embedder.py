@@ -1,17 +1,23 @@
 import os
 from typing import List, Dict
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
+import streamlit as st
 
-dotenv_path = os.path.join(os.path.dirname(__file__), '..', 'configs', '.env')
+def get_secret(key: str, default: str = None):
+    # Try to load from Streamlit secrets first
+    if key in st.secrets:
+        return st.secrets[key]
+    
+    # Then try from environment
+    return os.getenv(key, default)
 
-#load_dotenv(dotenv_path="AeroDocSense\configs\.env")
-load_dotenv(dotenv_path=dotenv_path)
+#load_dotenv(dotenv_path="AeroDocSense/configs/.env")
+HF_TOKEN = get_secret("HF_TOKEN")
+MONGO_URI = get_secret("MONGO_URI")
+MONGO_COLLECTION_NAME = get_secret("MONGO_COLLECTION", "embedded_chunks")
 
-HF_TOKEN = os.getenv("HF_API_TOKEN")
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
-
-assert HF_TOKEN is not None
 
 client = InferenceClient(
     model=MODEL_NAME,

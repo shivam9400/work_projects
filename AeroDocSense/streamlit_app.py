@@ -2,16 +2,16 @@ import streamlit as st
 st.write("App Started!")
 
 
-# from app.generate import answer_query
-# import streamlit as st
-# from configs import settings
+from app.generate import answer_query
+import streamlit as st
+from configs import settings
 
 
-# HF_TOKEN = settings.HF_TOKEN
-# MONGO_URI = settings.MONGO_DB_URI
+HF_TOKEN = settings.HF_TOKEN
+MONGO_URI = settings.MONGO_DB_URI
 
-# st.write("HF_TOKEN loaded?", HF_TOKEN is not None)
-# st.write("Mongo URI:", MONGO_URI)
+st.write("HF_TOKEN loaded?", HF_TOKEN is not None)
+st.write("Mongo URI:", MONGO_URI)
 
 # st.set_page_config(page_title="AeroDocSense", layout="centered")
 

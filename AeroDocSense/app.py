@@ -1,0 +1,17 @@
+import streamlit as st
+from app.generate import answer_query
+
+st.set_page_config(page_title="AeroDocSense", layout="centered")
+
+st.title("AeroDocSense - RAG for Aircraft hydraulic systems")
+st.markdown("Ask a question based on ATA 29")
+
+query = st.text_input("Enter your query", placeholder="e.g., What are maintenance procedures for A320 engines?")
+
+if st.button("Generate Answer"):
+    if query.strip():
+        with st.spinner("Generating answer..."):
+            response = answer_query(query)
+            st.success(response)
+    else:
+        st.warning("Please enter a query.")

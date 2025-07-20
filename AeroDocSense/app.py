@@ -1,3 +1,5 @@
+st.write("App Started!")
+
 import streamlit as st
 from app.generate import answer_query
 import streamlit as st

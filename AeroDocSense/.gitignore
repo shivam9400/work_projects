@@ -1,1 +1,2 @@
 configs\.env
+.streamlit\secrets.toml

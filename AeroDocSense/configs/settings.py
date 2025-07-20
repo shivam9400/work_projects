@@ -3,28 +3,29 @@ from dotenv import load_dotenv
 
 try:
     import streamlit as st
-    from streamlit.runtime.scriptrunner import get_script_run_ctx
-    USE_STREAMLIT_SECRETS = get_script_run_ctx() is not None
+    # Detect if secrets are usable (Cloud or local TOML present)
+    # Avoid touching st.secrets directly to prevent StreamlitSecretNotFoundError
+    secrets_available = False
+    try:
+        _ = st.secrets["HF_API_TOKEN"]  # try to access one required secret
+        secrets_available = True
+    except Exception:
+        pass
 except ImportError:
     st = None
-    USE_STREAMLIT_SECRETS = False
+    secrets_available = False
 
-
-
-if not USE_STREAMLIT_SECRETS:
+# Load .env only if Streamlit secrets are not available
+if not secrets_available:
     env_path = os.path.join(os.path.dirname(__file__), ".env")
     load_dotenv(dotenv_path=env_path)
 
 def get_secret(key: str, default: str = None) -> str:
-    """
-    Fetch secrets from Streamlit if running inside Streamlit app,
-    otherwise from environment variables.
-    """
-    if USE_STREAMLIT_SECRETS:
+    if secrets_available:
         return st.secrets.get(key, default)
     return os.getenv(key, default)
 
-# Now fetch secrets through this function
+# Access secrets safely
 MONGO_DB_URI = get_secret("MONGO_DB_URI")
 MONGO_COLLECTION = get_secret("MONGO_COLLECTION", "embedded_chunks")
 HF_TOKEN = get_secret("HF_API_TOKEN")

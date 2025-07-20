@@ -1,10 +1,10 @@
 import os
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
+from configs import settings
 
-load_dotenv(dotenv_path="AeroDocSense/configs/.env")
 
-HF_TOKEN = os.getenv("HF_API_TOKEN")
+HF_TOKEN = settings.HF_TOKEN
 
 # Initialize Hugging Face chat client
 client = InferenceClient(

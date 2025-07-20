@@ -1,12 +1,11 @@
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
-
-load_dotenv(dotenv_path="configs/.env")
+from configs import settings
 
 class MongoDBHandler:
     def __init__(self, db_name="aerodocsense_db", collection_name="embedded_chunks"):
-        mongo_uri = os.getenv("MONGO_DB_URI")
+        mongo_uri = settings.MONGO_DB_URI
         if not mongo_uri:
             raise ValueError("MONGO_DB_URI not found in environment variables")
         

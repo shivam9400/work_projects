@@ -5,9 +5,10 @@ from app.models.request_models import QueryRequest
 from app.models.response_models import RAGResponse
 from dotenv import load_dotenv
 import os
+from configs import settings
 
-load_dotenv(dotenv_path="AeroDocSense/configs/.env")
-hf_token = os.getenv("HF_API_TOKEN")
+
+hf_token = settings.HF_TOKEN
 
 app = FastAPI(
     title="AeroDocSense - RAG API",

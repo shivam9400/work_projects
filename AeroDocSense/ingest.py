@@ -10,8 +10,7 @@ import fitz
 from utils.chunker import chunk_document
 from utils.embedder import generate_embeddings
 from utils.mongo_handler import MongoDBHandler
-#from configs.settings import VECTOR_DB_PATH, MONGO_COLLECTION
-#import pickle
+
 
 DOCUMENTS_PATH = "AeroDocSense\data"
 

@@ -1,20 +1,18 @@
 import os
 from dotenv import load_dotenv
 
-USE_STREAMLIT_SECRETS = False
-
 try:
     import streamlit as st
-    if st._is_running_with_streamlit:
-        USE_STREAMLIT_SECRETS = True
-except (ImportError, AttributeError):
-    st = None  # fallback if streamlit is not available
+    from streamlit.runtime.scriptrunner import get_script_run_ctx
+    USE_STREAMLIT_SECRETS = get_script_run_ctx() is not None
+except ImportError:
+    st = None
+    USE_STREAMLIT_SECRETS = False
 
-# Absolute path to .env file
-env_path = os.path.join(os.path.dirname(__file__), ".env")
 
-# Load .env only if NOT using Streamlit secrets
+
 if not USE_STREAMLIT_SECRETS:
+    env_path = os.path.join(os.path.dirname(__file__), ".env")
     load_dotenv(dotenv_path=env_path)
 
 def get_secret(key: str, default: str = None) -> str:

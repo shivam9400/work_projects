@@ -9,7 +9,12 @@ class MongoDBHandler:
         if not mongo_uri:
             raise ValueError("MONGO_DB_URI not found in environment variables")
         
-        self.client = MongoClient(mongo_uri)
+        # Added TLS options for compatibility with Streamlit Cloud
+        self.client = MongoClient(
+            mongo_uri,
+            tls=True,
+            tlsAllowInvalidCertificates=True  # Only use for testing!
+        )
         self.db = self.client[db_name]
         self.collection = self.db[collection_name]
 
